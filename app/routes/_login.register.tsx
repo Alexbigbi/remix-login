@@ -7,7 +7,7 @@ import { storeUserInSession } from "~/session/session.server";
 
 export const action = async ({ request }: ActionArgs) => {
   // your implementation here
-  const formData = await.request.formData();
+  const formData = await request.formData();
   const email = formData.get("email");
   const password = formData.get("password");
   const user = await createUser(email as string, password as string); 
