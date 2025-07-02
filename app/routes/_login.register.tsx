@@ -2,9 +2,15 @@ import type { ActionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { createUser } from "~/models/user.server";
 
 export const action = async ({ request }: ActionArgs) => {
   // your implementation here
+  const formData = await.request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const user = await createUser(email as string, password as string); 
+  
   return null;
 };
 
