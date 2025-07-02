@@ -1,8 +1,9 @@
-import type { ActionArgs } from "@remix-run/node";
+import { redirect, type ActionArgs } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { createUser } from "~/models/user.server";
+import { storeUserInSession } from "~/session/session.server";
 
 export const action = async ({ request }: ActionArgs) => {
   // your implementation here
@@ -10,8 +11,12 @@ export const action = async ({ request }: ActionArgs) => {
   const email = formData.get("email");
   const password = formData.get("password");
   const user = await createUser(email as string, password as string); 
-  
-  return null;
+  const sessionHeader = await storeUserInSession(user);
+  return redirect("/dashboard", {
+    headers: {
+      "Set-Cookie": sessionHeader,
+    }
+  });
 };
 
 export default function RegisterRoute() {

@@ -19,3 +19,8 @@ export const storeUserInSession = async (user: Pick<User, "id">) => {
     return header;
 }
 
+export const getUserIdFromSession = async (request: Request) => {
+    const session = await getSession(request.headers.get("Cookie"));
+    const userId = session.get("userId");
+    return userId;
+}
